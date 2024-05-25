@@ -1,0 +1,8 @@
+streamlit
+requests
+beautifulsoup4
+spacy
+sentence-transformers
+chromadb
+ibm-watson-machine-learning
+python-dotenv
