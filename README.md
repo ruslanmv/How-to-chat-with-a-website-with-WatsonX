@@ -47,13 +47,11 @@ There are several ways to create an environment in Python. Follow these steps to
 Once you have your environment set up and activated, you need to install the necessary libraries. Run the following command to install the required packages:
 
 ```bash
-pip install streamlit python-dotenv  ibm_watson_machine_learning requests chromadb
+pip install streamlit python-dotenv  ibm_watson_machine_learning requests chromadb sentence_transformers
 ```
 
 IMPORTANT: Be aware of the disk space that will be taken up by documents when they're loaded into
 chromadb on your laptop. The size in chroma will likely be the same as .txt file size
-
-
 
 
 ## Step 3: Getting API from IBM Cloud
