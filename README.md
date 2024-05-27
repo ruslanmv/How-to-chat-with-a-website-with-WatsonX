@@ -1,3 +1,11 @@
+---
+title: WatsonX WebChat
+emoji: 🚀
+colorFrom: pink
+colorTo: gray
+sdk: docker
+pinned: false
+---
 ## How to Chat with a Website Using WatsonX
 
 Hello everyone! Today, we're going to create an exciting web app that allows us to chat with any website using Watsonx.ai.

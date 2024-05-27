@@ -5,7 +5,8 @@ FROM python:3.10-slim
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-COPY . /app
+COPY app.py /app/app.py
+COPY requirements.txt /app/requirements.txt
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
@@ -17,4 +18,4 @@ EXPOSE 8501
 RUN chmod +x run.py
 
 # Run the application
-ENTRYPOINT ["streamlit", "run", "run.py"]
+ENTRYPOINT ["streamlit", "run", "app.py"]
