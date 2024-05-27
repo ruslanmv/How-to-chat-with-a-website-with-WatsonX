@@ -185,6 +185,7 @@ def answer_questions_from_web(request_api_key, request_project_id, url, question
 
     # Specify model parameters
     model_type = "meta-llama/llama-2-70b-chat"
+    #model_type = "meta-llama/llama-3-70b-instruct"
     max_tokens = 100
     min_tokens = 50
     top_k = 50
