@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.10-slim
+FROM python:3.10-slim-buster
 
 # Set the working directory in the container
 WORKDIR /app
@@ -11,6 +11,7 @@ COPY .streamlit/config.toml  /app/.streamlit/config.toml
 COPY requirements.txt /app/requirements.txt
 
 # Install any needed packages specified in requirements.txt
+RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 RUN python -m spacy download en_core_web_md
 
