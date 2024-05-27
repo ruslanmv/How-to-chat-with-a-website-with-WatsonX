@@ -18,8 +18,7 @@ RUN python -m spacy download en_core_web_md
 # Expose port 8501 for Streamlit
 EXPOSE 8501
 
-# Make sure the script is executable
-RUN chmod +x run.py
+
 
 # Run the application
 ENTRYPOINT ["streamlit", "run", "app.py"]
