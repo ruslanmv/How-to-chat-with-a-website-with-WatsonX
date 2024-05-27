@@ -143,7 +143,7 @@ def create_embedding(url, collection_name):
     return collection
 
 
-def create_prompt(url, question, collection_name):
+def create_prompt_old(url, question, collection_name):
     # Create embeddings for the text file
     collection = create_embedding(url, collection_name)
 
@@ -160,6 +160,42 @@ def create_prompt(url, question, collection_name):
               + f"Question: {question}")
 
     return prompt
+
+def create_prompt(url, question, collection_name):
+  try:
+    # Create embeddings for the text file
+    collection = create_embedding(url, collection_name)
+  except Exception as e:
+    return f"Error creating embeddings: {e}"
+  
+  try:
+    # Query relevant information
+    relevant_chunks = collection.query(
+        query_texts=[question],
+        n_results=5,
+    )
+    context = "\n\n\n".join(relevant_chunks["documents"][0])
+  except Exception as e:
+    return f"Error querying the collection: {e}"
+  
+  # Create the prompt
+  prompt = (
+      "<|begin_of_text|>\n"
+      "<|start_header_id|>system<|end_header_id|>\n"
+      "You are a helpful AI assistant.\n"
+      "<|eot_id|>\n"
+      "<|start_header_id|>user<|end_header_id|>\n"
+      f"### Context:\n{context}\n\n"
+      f"### Instruction:\n"
+      f"Please answer the following question based on the above context. Your answer should be concise and directly address the question. "
+      f"If the question is unanswerable based on the given context, respond with 'unanswerable'.\n\n"
+      f"### Question:\n{question}\n"
+      "<|eot_id|>\n"
+      "<|start_header_id|>assistant<|end_header_id|>\n"
+  )
+
+  return prompt
+
 
 
 def main():
