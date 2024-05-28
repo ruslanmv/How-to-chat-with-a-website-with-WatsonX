@@ -88,8 +88,8 @@ cache_dir = os.path.join(current_dir, ".cache")
 if not os.path.exists(cache_dir):
     os.makedirs(cache_dir)
 # Download the model (specify the correct model identifier)
-#model_name = 'sentence-transformers/all-MiniLM-L6-v2'
-model_name = "all-MiniLM-L6-v2"  
+model_name = 'sentence-transformers/all-MiniLM-L6-v2'
+#model_name = "all-MiniLM-L6-v2"  
 model = SentenceTransformer(model_name, cache_folder=cache_dir)
 # Print confirmation message
 print(f"Model '{model_name}' downloaded and loaded from cache directory: {cache_dir}")
