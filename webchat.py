@@ -79,8 +79,20 @@ def get_model_test(model_type, max_tokens, min_tokens, decoding, temperature):
 
     return model
 
-# Download the model first
-model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+
+
+# Set up cache directory (consider user-defined location)
+current_dir = os.getcwd()
+cache_dir = os.path.join(current_dir, ".cache")
+# Create cache directory if necessary
+if not os.path.exists(cache_dir):
+    os.makedirs(cache_dir)
+# Download the model (specify the correct model identifier)
+#model_name = 'sentence-transformers/all-MiniLM-L6-v2'
+model_name = "all-MiniLM-L6-v2"  
+model = SentenceTransformer(model_name, cache_folder=cache_dir)
+# Print confirmation message
+print(f"Model '{model_name}' downloaded and loaded from cache directory: {cache_dir}")
 # Embedding function
 class MiniLML6V2EmbeddingFunction(EmbeddingFunction):
     MODEL = model

@@ -20,8 +20,6 @@ def create_collection_name(url):
     else:
         return "base"
 
-
-
 def clear_collection(collection_name):
     client = chromadb.Client()
     try:
