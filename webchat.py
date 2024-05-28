@@ -87,6 +87,8 @@ cache_dir = os.path.join(current_dir, ".cache")
 # Create cache directory if necessary
 if not os.path.exists(cache_dir):
     os.makedirs(cache_dir)
+# Set the Hugging Face cache directory
+os.environ["HF_HOME"] = cache_dir    
 # Download the model (specify the correct model identifier)
 model_name = 'sentence-transformers/all-MiniLM-L6-v2'
 #model_name = "all-MiniLM-L6-v2"  
@@ -137,10 +139,17 @@ def split_text_into_sentences(text):
 
 
 def create_embedding(url, collection_name):
+    # Set up cache directory (consider user-defined location)
+    current_dir = os.getcwd()
+    # Replace 'my_custom_cache_path' with your desired location
+    custom_cache_path = os.path.join(current_dir, ".cache")
+    # Create settings object with custom cache path
+    settings = chromadb.Settings(persist_directory=custom_cache_path)
+
     cleaned_text = extract_text(url)
     cleaned_sentences = split_text_into_sentences(cleaned_text)
-
-    client = chromadb.Client()
+     # Initialize client with custom settings
+    client = chromadb.Client(settings)
 
     collection = client.get_or_create_collection(collection_name)
 

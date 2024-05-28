@@ -46,7 +46,6 @@ def main():
             # Invoke the LLM when the button is clicked
             response = webchat.answer_questions_from_web(api_key, watsonx_project_id, user_url, question, collection_name)
             st.write(response)
-
     else:
         st.warning("Please provide API Key and Project ID in the sidebar.")
   
@@ -58,7 +57,6 @@ def main():
         if collection_name:  # Check if collection_name is defined and not empty
             utils.clear_collection(collection_name)
             st.sidebar.success("Memory cleared successfully!")
-            #st.sidebar.markdown(collection_name, unsafe_allow_html=True)
             print("Memory cleared successfully!")
         else:
             st.sidebar.error("Collection name is not defined or empty.")
