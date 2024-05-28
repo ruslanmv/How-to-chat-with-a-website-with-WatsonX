@@ -16,6 +16,9 @@ RUN python -m pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt && \
     python -m spacy download en_core_web_md
 # Create the cache directory and set permissions
+RUN mkdir -p /.cache && \
+    chmod -R 777 /.cache 
+
 RUN mkdir -p /app/.cache && \
     chmod -R 777 /app && \
     chmod -R 777 /app/.cache
