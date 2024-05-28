@@ -79,18 +79,21 @@ def get_model_test(model_type, max_tokens, min_tokens, decoding, temperature):
 
     return model
 
-import os
-# Get the current working directory
+# Set up cache directory
 current_dir = os.getcwd()
 cache_dir = os.path.join(current_dir, ".cache")
 if not os.path.exists(cache_dir):
-    os.makedirs(cache_dir)
+    os.makedirs(cache_dir)  
+
+# Set the TRANSFORMERS_CACHE environment variable
+os.environ['TRANSFORMERS_CACHE'] = cache_dir
+
+# Download the model first
+model = SentenceTransformer('all-MiniLM-L6-v2')
+
 # Embedding function
 class MiniLML6V2EmbeddingFunction(EmbeddingFunction):
-    #MODEL = SentenceTransformer('all-MiniLM-L6-v2')
-    MODEL = SentenceTransformer('all-MiniLM-L6-v2', cache_dir=cache_dir)
-
-
+    MODEL = model
     def __call__(self, texts):
         return MiniLML6V2EmbeddingFunction.MODEL.encode(texts).tolist()
 
