@@ -19,6 +19,7 @@ RUN python -m pip install --upgrade pip && \
 # Copy the rest of the application code
 COPY app.py /app/app.py
 COPY webchat.py /app/webchat.py
+COPY utils.py /app/utils.py
 COPY .streamlit/config.toml /app/.streamlit/config.toml
 
 # Expose port 8501 for Streamlit
