@@ -10,7 +10,6 @@ watsonx_project_id = ""
 api_key = ""
 def main():
     utils.get_credentials()
-    client=utils.chromadb_client()
     st.set_page_config(layout="wide", page_title="RAG Web Demo", page_icon="")
     utils.load_css("styles.css")
     # Streamlit app title with style
@@ -40,6 +39,7 @@ def main():
     st.markdown("<hr>", unsafe_allow_html=True)
     st.subheader("Response")
     collection_name="base"
+    client=utils.chromadb_client()
     if globals()["api_key"] and globals()["watsonx_project_id"]:
         # Provide a unique name for this website (lower case). Use the same name for the same URL to avoid loading data multiple times.
         #collection_name = utils.create_collection_name(user_url)
