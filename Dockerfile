@@ -25,6 +25,7 @@ COPY app.py /app/app.py
 COPY webchat.py /app/webchat.py
 COPY utils.py /app/utils.py
 COPY .streamlit/config.toml /app/.streamlit/config.toml
+COPY styles.css /app/styles.css
 
 # Expose port 8501 for Streamlit
 EXPOSE 8501
