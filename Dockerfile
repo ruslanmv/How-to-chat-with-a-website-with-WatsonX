@@ -8,8 +8,6 @@ ENV PYTHONUNBUFFERED=1
 # Set the working directory in the container
 WORKDIR /app
 
-
-
 # Copy only the requirements file to leverage Docker cache
 COPY requirements.txt /app/requirements.txt
 
@@ -19,8 +17,9 @@ RUN python -m pip install --upgrade pip && \
     python -m spacy download en_core_web_md
 # Create the cache directory and set permissions
 RUN mkdir -p /app/.cache && \
-    chmod -R 777 /app/
-
+    chmod -R 777 /app && \
+    chmod -R 777 /app/.cache
+ENV TRANSFORMERS_CACHE=/app/.cache
     # Copy the rest of the application code
 COPY app.py /app/app.py
 COPY webchat.py /app/webchat.py
