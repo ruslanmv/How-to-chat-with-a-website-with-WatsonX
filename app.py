@@ -39,8 +39,6 @@ def main():
     st.markdown("<hr>", unsafe_allow_html=True)
     st.subheader("Response")
     collection_name="base"
-     ## Cleaning Vector Database
-    #utils.clear_collection(collection_name)
     if globals()["api_key"] and globals()["watsonx_project_id"]:
         # Provide a unique name for this website (lower case). Use the same name for the same URL to avoid loading data multiple times.
         #collection_name = utils.create_collection_name(user_url)

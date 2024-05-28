@@ -4,6 +4,7 @@ emoji: 🚀
 colorFrom: pink
 colorTo: gray
 sdk: docker
+app_port: 8501  
 pinned: false
 ---
 ## How to Chat with a Website Using WatsonX
