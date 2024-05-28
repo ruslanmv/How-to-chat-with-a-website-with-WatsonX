@@ -8,11 +8,13 @@ import utils
 url = "https://us-south.ml.cloud.ibm.com"
 
 def main():
+    # Get the API key and project id and update global variables
+    load_dotenv()
     # Initialize session state for credentials
     if 'watsonx_project_id' not in st.session_state:
-        st.session_state['watsonx_project_id'] = ""
+        st.session_state['watsonx_project_id'] = os.getenv("project_id", "")
     if 'api_key' not in st.session_state:
-        st.session_state['api_key'] = ""
+        st.session_state['api_key'] = os.getenv("api_key", "")
 
     st.set_page_config(layout="wide", page_title="RAG Web Demo", page_icon="")
     utils.load_css("styles.css")
