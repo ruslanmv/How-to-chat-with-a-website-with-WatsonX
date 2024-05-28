@@ -10,6 +10,7 @@ watsonx_project_id = ""
 api_key = ""
 def main():
     utils.get_credentials()
+    client=utils.chromadb_client()
     st.set_page_config(layout="wide", page_title="RAG Web Demo", page_icon="")
     utils.load_css("styles.css")
     # Streamlit app title with style
@@ -44,7 +45,7 @@ def main():
         #collection_name = utils.create_collection_name(user_url)
         if button_clicked and user_url:
             # Invoke the LLM when the button is clicked
-            response = webchat.answer_questions_from_web(api_key, watsonx_project_id, user_url, question, collection_name)
+            response = webchat.answer_questions_from_web(api_key, watsonx_project_id, user_url, question, collection_name,client)
             st.write(response)
     else:
         st.warning("Please provide API Key and Project ID in the sidebar.")
@@ -55,7 +56,7 @@ def main():
     clean_button_clicked = st.sidebar.button("Clean Memory")
     if clean_button_clicked :
         if collection_name:  # Check if collection_name is defined and not empty
-            utils.clear_collection(collection_name)
+            utils.clear_collection(collection_name, client)
             st.sidebar.success("Memory cleared successfully!")
             print("Memory cleared successfully!")
         else:

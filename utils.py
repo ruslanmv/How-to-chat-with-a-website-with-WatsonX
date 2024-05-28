@@ -19,9 +19,20 @@ def create_collection_name(url):
         return domain_parts[-2]  # Extracting the second-level domain
     else:
         return "base"
+    
+def chromadb_client():
+    import chromadb
+    # Set up cache directory (consider user-defined location)
+    current_dir = os.getcwd()
+    # Replace 'my_custom_cache_path' with your desired location
+    custom_cache_path = os.path.join(current_dir, ".cache")
+    # Create settings object with custom cache path
+    settings = chromadb.Settings(persist_directory=custom_cache_path)
+     # Initialize client with custom settings
+    client = chromadb.Client(settings)
+    return client
 
-def clear_collection(collection_name):
-    client = chromadb.Client()
+def clear_collection(collection_name,client):
     try:
         collection = client.get_collection(collection_name)
         if collection:

@@ -15,6 +15,7 @@ from bs4 import BeautifulSoup
 import spacy
 import chromadb
 import en_core_web_md
+from utils import chromadb_client
 
 # Important: hardcoding the API key in Python code is not a best practice. We are using
 # this approach for the ease of demo setup. In a production application these variables
@@ -79,8 +80,6 @@ def get_model_test(model_type, max_tokens, min_tokens, decoding, temperature):
 
     return model
 
-
-
 # Set up cache directory (consider user-defined location)
 current_dir = os.getcwd()
 cache_dir = os.path.join(current_dir, ".cache")
@@ -95,6 +94,7 @@ model_name = 'sentence-transformers/all-MiniLM-L6-v2'
 model = SentenceTransformer(model_name, cache_folder=cache_dir)
 # Print confirmation message
 print(f"Model '{model_name}' downloaded and loaded from cache directory: {cache_dir}")
+
 # Embedding function
 class MiniLML6V2EmbeddingFunction(EmbeddingFunction):
     MODEL = model
@@ -122,7 +122,6 @@ def extract_text(url):
             # remove \xa0 which is used in html to avoid words break acorss lines.
             cleaned_text = raw_web_text.replace("\xa0", " ")
             return cleaned_text
-
         else:
             print(f"Failed to retrieve the page. Status code: {response.status_code}")
 
@@ -137,22 +136,10 @@ def split_text_into_sentences(text):
     cleaned_sentences = [s.strip() for s in sentences]
     return cleaned_sentences
 
-
-def create_embedding(url, collection_name):
-    # Set up cache directory (consider user-defined location)
-    current_dir = os.getcwd()
-    # Replace 'my_custom_cache_path' with your desired location
-    custom_cache_path = os.path.join(current_dir, ".cache")
-    # Create settings object with custom cache path
-    settings = chromadb.Settings(persist_directory=custom_cache_path)
-
+def create_embedding(url, collection_name,client):
     cleaned_text = extract_text(url)
     cleaned_sentences = split_text_into_sentences(cleaned_text)
-     # Initialize client with custom settings
-    client = chromadb.Client(settings)
-
     collection = client.get_or_create_collection(collection_name)
-
     # Upload text to chroma
     collection.upsert(
         documents=cleaned_sentences,
@@ -163,9 +150,9 @@ def create_embedding(url, collection_name):
     return collection
 
 
-def create_prompt_old(url, question, collection_name):
+def create_prompt_old(url, question, collection_name, client):
     # Create embeddings for the text file
-    collection = create_embedding(url, collection_name)
+    collection = create_embedding(url, collection_name, client)
 
     # query relevant information
     relevant_chunks = collection.query(
@@ -181,10 +168,10 @@ def create_prompt_old(url, question, collection_name):
 
     return prompt
 
-def create_prompt(url, question, collection_name):
+def create_prompt(url, question, collection_name,client):
   try:
     # Create embeddings for the text file
-    collection = create_embedding(url, collection_name)
+    collection = create_embedding(url, collection_name,client)
   except Exception as e:
     return f"Error creating embeddings: {e}"
   
@@ -222,7 +209,7 @@ def main():
 
     # Get the API key and project id and update global variables
     get_credentials()
-
+    client=chromadb_client()
     # Try diffrent URLs and questions
     url = "https://www.usbank.com/financialiq/manage-your-household/buy-a-car/own-electric-vehicles-learned-buying-driving-EVs.html"
 
@@ -231,10 +218,10 @@ def main():
     # question = "Can an EV be plugged in to a household outlet?"
     collection_name = "test_web_RAG"
 
-    answer_questions_from_web(api_key, watsonx_project_id, url, question, collection_name)
+    answer_questions_from_web(api_key, watsonx_project_id, url, question, collection_name,client)
 
 
-def answer_questions_from_web(request_api_key, request_project_id, url, question, collection_name):
+def answer_questions_from_web(request_api_key, request_project_id, url, question, collection_name,client):
     # Update the global variable
     globals()["api_key"] = request_api_key
     globals()["watsonx_project_id"] = request_project_id
@@ -253,7 +240,7 @@ def answer_questions_from_web(request_api_key, request_project_id, url, question
     model = get_model(model_type, max_tokens, min_tokens, decoding, temperature, top_k, top_p)
 
     # Get the prompt
-    complete_prompt = create_prompt(url, question, collection_name)
+    complete_prompt = create_prompt(url, question, collection_name,client)
 
     # Let's review the prompt
     print("----------------------------------------------------------------------------------------------------")
