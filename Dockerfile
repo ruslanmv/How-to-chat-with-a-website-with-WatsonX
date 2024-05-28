@@ -20,6 +20,7 @@ RUN mkdir -p /app/.cache && \
     chmod -R 777 /app && \
     chmod -R 777 /app/.cache
 ENV TRANSFORMERS_CACHE=/app/.cache
+ENV HF_HOME=/app/.cache
     # Copy the rest of the application code
 COPY app.py /app/app.py
 COPY webchat.py /app/webchat.py

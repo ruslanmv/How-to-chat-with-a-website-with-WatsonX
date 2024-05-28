@@ -80,14 +80,12 @@ def get_model_test(model_type, max_tokens, min_tokens, decoding, temperature):
     return model
 
 # Download the model first
-model = SentenceTransformer('all-MiniLM-L6-v2')
-
+model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 # Embedding function
 class MiniLML6V2EmbeddingFunction(EmbeddingFunction):
     MODEL = model
     def __call__(self, texts):
         return MiniLML6V2EmbeddingFunction.MODEL.encode(texts).tolist()
-
 
 def extract_text(url):
     try:
