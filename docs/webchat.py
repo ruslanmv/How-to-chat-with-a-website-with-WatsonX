@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 import spacy
 import chromadb
 import en_core_web_md
-from utils import chromadb_client
+
 
 # Important: hardcoding the API key in Python code is not a best practice. We are using
 # this approach for the ease of demo setup. In a production application these variables
@@ -209,15 +209,14 @@ def main():
 
     # Get the API key and project id and update global variables
     get_credentials()
-    client=chromadb_client()
+   
     # Try diffrent URLs and questions
     url = "https://huggingface.co/learn/nlp-course/chapter1/2?fw=pt"
 
     question = "What is NLP?"
-
     collection_name = "test_web_RAG"
 
-    answer_questions_from_web(api_key, watsonx_project_id, url, question, collection_name,client)
+    answer_questions_from_web(api_key, watsonx_project_id, url, question, collection_name)
 
 
 def answer_questions_from_web(request_api_key, request_project_id, url, question, collection_name,client):
@@ -237,6 +236,8 @@ def answer_questions_from_web(request_api_key, request_project_id, url, question
 
     # Get the watsonx model = try both options
     model = get_model(model_type, max_tokens, min_tokens, decoding, temperature, top_k, top_p)
+    # Get client Chromadb
+    client = chromadb.Client()
 
     # Get the prompt
     complete_prompt = create_prompt(url, question, collection_name,client)
