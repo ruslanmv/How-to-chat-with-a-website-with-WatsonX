@@ -10,7 +10,7 @@ pinned: false
 # WatsonX-WebChat
 
 WatsonX-WebChat is an interactive web application that uses IBM Watson's language models to answer questions based on the content of a provided web page URL. This application leverages Retrieval-Augmented Generation (RAG) techniques to provide accurate and contextually relevant answers.
-
+![](assets/2024-05-29-12-05-51.png)
 ## Features
 
 - Extracts and processes text from a given URL.
