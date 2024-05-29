@@ -1,12 +1,3 @@
----
-title: WatsonX WebChat
-emoji: 🚀
-colorFrom: pink
-colorTo: gray
-sdk: docker
-app_port: 8501  
-pinned: false
----
 ## How to Chat with a Website Using WatsonX
 
 Hello everyone! Today, we're going to create an exciting web app that allows us to chat with any website using Watsonx.ai.
@@ -294,9 +285,6 @@ def split_text_into_sentences(text):
 def create_embedding(url, collection_name, client):
     cleaned_text = extract_text(url)
     cleaned_sentences = split_text_into_sentences(cleaned_text)
-
-    
-
     collection = client.get_or_create_collection(collection_name)
 
     # Upload text to chroma
